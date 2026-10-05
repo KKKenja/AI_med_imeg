@@ -1,0 +1,6 @@
+/E3
+/raw
+/data
+/output
+.venv/
+*.pt
