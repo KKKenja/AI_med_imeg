@@ -20,6 +20,7 @@ The test set is evaluated **only once**, using the checkpoint with the highest v
 | `split_dataset.py` | Pools the original train/val/test images and re-splits them 80/10/10 per class (seed 42) into `data/` |
 | `train.py` | Training: dataloaders, data augmentation, model, train/val loop, final test, plots, log file |
 | `inference.py` | Loads a saved checkpoint and evaluates it on the test set |
+| `plot_compare.py` | Plots the accuracy / F1 curves of several models from their training logs |
 | `logs/` | Training logs (all terminal output, plus the arguments of each run) |
 
 ## 1. Environment
@@ -107,5 +108,15 @@ python inference.py --model resnet50
 ```
 
 By default this loads `output/<model>_weights.pt`; use `--ckpt <path>` to load another file. `--model` must match the architecture the weights were trained with.
+
+## 5. Model comparison
+
+Reads the per-epoch results from the training logs and plots the models together:
+
+```bash
+python plot_compare.py --logs logs/Res18_train_20261008_102219.log logs/train_20261008_150258.log --names ResNet18 ResNet50 --acc_ymin 75
+```
+
+Saves `output/compare_accuracy.png` (train / val accuracy) and `output/compare_f1_score.png` (val F1-score). These are Figures 2 and 3 in the report.
 
 Prints the test accuracy, recall, precision and F1-score (positive class = PNEUMONIA), and saves `output/<model>_inference_confusion_matrix.png`.

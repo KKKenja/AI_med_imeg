@@ -1,7 +1,0 @@
-## Log file: logs\resnet18_train_20261008_164032.log ##
-## Args: {'model': 'resnet18', 'num_classes': 2, 'num_epochs': 1, 'batch_size': 32, 'lr': 1e-05, 'wd': 0.0001, 'dataset': 'data', 'degree': 15, 'resize': 224, 'output_dir': 'C:/Users/user/AppData/Local/Temp/claude/c--Users-user-Desktop-code-NYCU115-1-AI-Med/8a862804-a6ca-468c-896b-c1c5c3dd2327/scratchpad/smoke3', 'ckpt': 'model_weights.pt'} ##
-## Now using cuda as calculating device ##
-## Dataset size - train: 4686, val: 585, test: 585 ##
-Epoch: 1
-↳ Loss: 0.010082933372836616
-↳ Training Acc.(%): 82.03%
