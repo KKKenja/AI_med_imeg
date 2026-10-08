@@ -1,0 +1,158 @@
+## Log file: logs\train_20261008_102219.log ##
+## Args: {'num_classes': 2, 'num_epochs': 30, 'batch_size': 64, 'lr': 1e-05, 'wd': 0.0001, 'dataset': 'data', 'degree': 15, 'resize': 224} ##
+## Now using cuda as calculating device ##
+Epoch: 1
+↳ Loss: 0.011066101515300754
+↳ Training Acc.(%): 49.66%
+↳ Recall: 0.7002, Precision: 0.9967, F1-score: 0.8226
+↳ Val Acc.(%): 77.95%
+Epoch: 2
+↳ Loss: 0.0036887239857178898
+↳ Training Acc.(%): 91.55%
+↳ Recall: 0.9180, Precision: 0.9924, F1-score: 0.9538
+↳ Val Acc.(%): 93.50%
+Epoch: 3
+↳ Loss: 0.002675352622868157
+↳ Training Acc.(%): 94.71%
+↳ Recall: 0.9415, Precision: 0.9901, F1-score: 0.9652
+↳ Val Acc.(%): 95.04%
+Epoch: 4
+↳ Loss: 0.0022751101329636482
+↳ Training Acc.(%): 95.31%
+↳ Recall: 0.9485, Precision: 0.9902, F1-score: 0.9689
+↳ Val Acc.(%): 95.56%
+Epoch: 5
+↳ Loss: 0.0020761619444429314
+↳ Training Acc.(%): 95.97%
+↳ Recall: 0.9415, Precision: 0.9950, F1-score: 0.9675
+↳ Val Acc.(%): 95.38%
+Epoch: 6
+↳ Loss: 0.0019773960262982194
+↳ Training Acc.(%): 96.24%
+↳ Recall: 0.9438, Precision: 0.9951, F1-score: 0.9687
+↳ Val Acc.(%): 95.56%
+Epoch: 7
+↳ Loss: 0.001750948931107626
+↳ Training Acc.(%): 96.46%
+↳ Recall: 0.9672, Precision: 0.9928, F1-score: 0.9798
+↳ Val Acc.(%): 97.09%
+Epoch: 8
+↳ Loss: 0.001852146498707882
+↳ Training Acc.(%): 96.27%
+↳ Recall: 0.9555, Precision: 0.9976, F1-score: 0.9761
+↳ Val Acc.(%): 96.58%
+Epoch: 9
+↳ Loss: 0.0018290425080375137
+↳ Training Acc.(%): 97.01%
+↳ Recall: 0.9578, Precision: 0.9927, F1-score: 0.9750
+↳ Val Acc.(%): 96.41%
+Epoch: 10
+↳ Loss: 0.0015802063577344567
+↳ Training Acc.(%): 96.93%
+↳ Recall: 0.9649, Precision: 0.9952, F1-score: 0.9798
+↳ Val Acc.(%): 97.09%
+Epoch: 11
+↳ Loss: 0.0014119218815097404
+↳ Training Acc.(%): 96.99%
+↳ Recall: 0.9578, Precision: 0.9976, F1-score: 0.9773
+↳ Val Acc.(%): 96.75%
+Epoch: 12
+↳ Loss: 0.0014682910466710575
+↳ Training Acc.(%): 97.12%
+↳ Recall: 0.9415, Precision: 0.9975, F1-score: 0.9687
+↳ Val Acc.(%): 95.56%
+Epoch: 13
+↳ Loss: 0.0012451792606862117
+↳ Training Acc.(%): 97.10%
+↳ Recall: 0.9532, Precision: 0.9975, F1-score: 0.9749
+↳ Val Acc.(%): 96.41%
+Epoch: 14
+↳ Loss: 0.0013662365122491154
+↳ Training Acc.(%): 97.48%
+↳ Recall: 0.9461, Precision: 0.9975, F1-score: 0.9712
+↳ Val Acc.(%): 95.90%
+Epoch: 15
+↳ Loss: 0.001167867377762513
+↳ Training Acc.(%): 97.59%
+↳ Recall: 0.9602, Precision: 0.9951, F1-score: 0.9774
+↳ Val Acc.(%): 96.75%
+Epoch: 16
+↳ Loss: 0.0011518674822523394
+↳ Training Acc.(%): 97.38%
+↳ Recall: 0.9555, Precision: 0.9976, F1-score: 0.9761
+↳ Val Acc.(%): 96.58%
+Epoch: 17
+↳ Loss: 0.0010167025709369728
+↳ Training Acc.(%): 97.91%
+↳ Recall: 0.9719, Precision: 0.9928, F1-score: 0.9822
+↳ Val Acc.(%): 97.44%
+Epoch: 18
+↳ Loss: 0.0010321157274118256
+↳ Training Acc.(%): 97.78%
+↳ Recall: 0.9532, Precision: 0.9975, F1-score: 0.9749
+↳ Val Acc.(%): 96.41%
+Epoch: 19
+↳ Loss: 0.0009150076662750721
+↳ Training Acc.(%): 98.21%
+↳ Recall: 0.9625, Precision: 0.9976, F1-score: 0.9797
+↳ Val Acc.(%): 97.09%
+Epoch: 20
+↳ Loss: 0.0009281181855937303
+↳ Training Acc.(%): 98.04%
+↳ Recall: 0.9555, Precision: 0.9976, F1-score: 0.9761
+↳ Val Acc.(%): 96.58%
+Epoch: 21
+↳ Loss: 0.0011956294963944812
+↳ Training Acc.(%): 97.57%
+↳ Recall: 0.9813, Precision: 0.9929, F1-score: 0.9870
+↳ Val Acc.(%): 98.12%
+Epoch: 22
+↳ Loss: 0.0009456444538635255
+↳ Training Acc.(%): 97.97%
+↳ Recall: 0.9836, Precision: 0.9953, F1-score: 0.9894
+↳ Val Acc.(%): 98.46%
+Epoch: 23
+↳ Loss: 0.0008482293969531422
+↳ Training Acc.(%): 98.19%
+↳ Recall: 0.9625, Precision: 0.9976, F1-score: 0.9797
+↳ Val Acc.(%): 97.09%
+Epoch: 24
+↳ Loss: 0.0008966486664139914
+↳ Training Acc.(%): 98.31%
+↳ Recall: 0.9672, Precision: 0.9952, F1-score: 0.9810
+↳ Val Acc.(%): 97.26%
+Epoch: 25
+↳ Loss: 0.0008628782798344133
+↳ Training Acc.(%): 98.34%
+↳ Recall: 0.9766, Precision: 0.9952, F1-score: 0.9858
+↳ Val Acc.(%): 97.95%
+Epoch: 26
+↳ Loss: 0.0007172632176227108
+↳ Training Acc.(%): 98.36%
+↳ Recall: 0.9836, Precision: 0.9929, F1-score: 0.9882
+↳ Val Acc.(%): 98.29%
+Epoch: 27
+↳ Loss: 0.0007495239181853465
+↳ Training Acc.(%): 98.70%
+↳ Recall: 0.9742, Precision: 0.9952, F1-score: 0.9846
+↳ Val Acc.(%): 97.78%
+Epoch: 28
+↳ Loss: 0.0006684102733133379
+↳ Training Acc.(%): 98.51%
+↳ Recall: 0.9813, Precision: 0.9929, F1-score: 0.9870
+↳ Val Acc.(%): 98.12%
+Epoch: 29
+↳ Loss: 0.0006389963391705603
+↳ Training Acc.(%): 98.76%
+↳ Recall: 0.9789, Precision: 0.9952, F1-score: 0.9870
+↳ Val Acc.(%): 98.12%
+Epoch: 30
+↳ Loss: 0.0008111844520786928
+↳ Training Acc.(%): 98.16%
+↳ Recall: 0.9813, Precision: 0.9905, F1-score: 0.9859
+↳ Val Acc.(%): 97.95%
+==================================================
+## Final Test ##
+↳ Recall: 0.9696, Precision: 0.9881, F1-score: 0.9787
+↳ Test Acc.(%): 96.92%
+==================================================

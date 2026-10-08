@@ -1,6 +1,8 @@
 import os
+import sys
 import copy
 import warnings
+from datetime import datetime
 import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
@@ -18,6 +20,21 @@ from torchvision.datasets import ImageFolder
 import seaborn as sns
 from matplotlib.ticker import MaxNLocator
 
+
+class Logger:
+    # write everything printed to both the terminal and a log file
+    def __init__(self, log_path):
+        self.terminal = sys.stdout
+        self.log = open(log_path, 'a', encoding='utf-8')
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+        self.log.flush()
+
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
 
 def measurement(outputs, labels, smooth=1e-10):
     tp, tn, fp, fn = smooth, smooth, smooth, smooth
@@ -186,6 +203,13 @@ if __name__ == '__main__':
     parser.add_argument('--resize', type=int, default=224)
 
     args = parser.parse_args()
+
+    # log file: logs/train_YYYYmmdd_HHMMSS.log
+    os.makedirs('logs', exist_ok=True)
+    log_path = os.path.join('logs', f'train_{datetime.now():%Y%m%d_%H%M%S}.log')
+    sys.stdout = Logger(log_path)
+    print(f'## Log file: {log_path} ##')
+    print(f'## Args: {vars(args)} ##')
 
     # set gpu
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
