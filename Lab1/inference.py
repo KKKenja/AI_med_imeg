@@ -14,7 +14,7 @@ if __name__ == '__main__':
     sys.stdout.reconfigure(encoding='utf-8')
 
     parser = ArgumentParser()
-    parser.add_argument('--model', type=str, default='resnet18', choices=['resnet18', 'resnet50'])
+    parser.add_argument('--model', type=str, default='resnet18', choices=['resnet18', 'resnet50', 'resnet101'])
     parser.add_argument('--ckpt', type=str, default=None, help='weights saved by train.py, default: <output_dir>/<model>_weights.pt')
     parser.add_argument('--num_classes', type=int, default=2)
     parser.add_argument('--dataset', type=str, default='data')

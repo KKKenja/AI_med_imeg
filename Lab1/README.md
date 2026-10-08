@@ -6,12 +6,14 @@ Dataset: [Kaggle - Chest X-Ray Images (Pneumonia)](https://www.kaggle.com/datase
 
 ## Results
 
-| Model | Batch size | Best Val Acc (epoch) | Test Acc | Test F1 |
-|---|---|---|---|---|
-| ResNet18 | 64 | 98.46% (22) | 96.92% | 0.9787 |
-| ResNet50 | 32 | 98.12% (29) | **98.12%** | **0.9871** |
+| Model | Batch size | Best Val Acc (epoch) | Test Acc | Test F1 | Log |
+|---|---|---|---|---|---|
+| ResNet18 | 64 | 98.46% (22) | 96.92% | 0.9787 | `logs/Res18_train_20261008_102219.log` |
+| ResNet18 | 32 | 98.63% (23) | 96.92% | 0.9788 | `logs/resnet18_train_20261008_174911.log` |
+| ResNet50 | 32 | 98.12% (29) | **98.12%** | **0.9871** | `logs/train_20261008_150258.log` |
 
 The test set is evaluated **only once**, using the checkpoint with the highest validation accuracy.
+`output/resnet18_weights.pt` is from the batch-32 run.
 
 ## Files
 
@@ -64,8 +66,9 @@ This **copies** the images into `data/` (`raw/` is not modified):
 ## 3. Training
 
 ```bash
-python train.py --model resnet18 --batch_size 64
+python train.py --model resnet18 --batch_size 32
 python train.py --model resnet50 --batch_size 32
+python train.py --model resnet18 --batch_size 64 --ckpt output/resnet18_bs64_weights.pt   # batch size comparison
 ```
 
 Each run writes:
@@ -82,7 +85,7 @@ Arguments:
 
 | Argument | Default | Description |
 |---|---|---|
-| `--model` | `resnet18` | `resnet18` or `resnet50` |
+| `--model` | `resnet18` | `resnet18`, `resnet50` or `resnet101` |
 | `--num_epochs` | 30 | |
 | `--batch_size` | 32 | Use 32 for ResNet50 on a 4 GB GPU |
 | `--lr` | 1e-5 | Adam learning rate |
@@ -109,14 +112,14 @@ python inference.py --model resnet50
 
 By default this loads `output/<model>_weights.pt`; use `--ckpt <path>` to load another file. `--model` must match the architecture the weights were trained with.
 
+Prints the test accuracy, recall, precision and F1-score (positive class = PNEUMONIA), and saves `output/<model>_inference_confusion_matrix.png`.
+
 ## 5. Model comparison
 
-Reads the per-epoch results from the training logs and plots the models together:
+Reads the per-epoch results from the training logs and plots the runs together:
 
 ```bash
-python plot_compare.py --logs logs/Res18_train_20261008_102219.log logs/train_20261008_150258.log --names ResNet18 ResNet50 --acc_ymin 75
+python plot_compare.py --logs logs/Res18_train_20261008_102219.log logs/resnet18_train_20261008_174911.log logs/train_20261008_150258.log --names "ResNet18 (bs64)" "ResNet18 (bs32)" "ResNet50 (bs32)" --acc_ymin 75
 ```
 
 Saves `output/compare_accuracy.png` (train / val accuracy) and `output/compare_f1_score.png` (val F1-score). These are Figures 2 and 3 in the report.
-
-Prints the test accuracy, recall, precision and F1-score (positive class = PNEUMONIA), and saves `output/<model>_inference_confusion_matrix.png`.

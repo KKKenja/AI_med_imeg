@@ -104,6 +104,8 @@ def build_model(name, num_classes=2, pretrained=True):
         model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT if pretrained else None)
     elif name == 'resnet50':
         model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT if pretrained else None)
+    elif name == 'resnet101':
+        model = models.resnet101(weights=models.ResNet101_Weights.DEFAULT if pretrained else None)
     else:
         raise ValueError(f'Unknown model: {name}')
     # reinitialize the final classification layer for 2 classes
@@ -248,7 +250,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
 
     # for model
-    parser.add_argument('--model', type=str, default='resnet18', choices=['resnet18', 'resnet50'])
+    parser.add_argument('--model', type=str, default='resnet18', choices=['resnet18', 'resnet50','resnet101'])
     parser.add_argument('--num_classes', type=int, required=False, default=2)
 
     # for training
