@@ -1,0 +1,23 @@
+## Log file: logs\train_20261008_115252.log ##
+## Args: {'num_classes': 2, 'num_epochs': 30, 'batch_size': 32, 'lr': 1e-05, 'wd': 0.0001, 'dataset': 'data', 'degree': 15, 'resize': 224} ##
+## Now using cuda as calculating device ##
+Epoch: 1
+↳ Loss: 0.016247953079574086
+↳ Training Acc.(%): 84.12%
+↳ Recall: 0.7283, Precision: 0.9968, F1-score: 0.8417
+↳ Val Acc.(%): 80.00%
+Epoch: 2
+↳ Loss: 0.00844543439312669
+↳ Training Acc.(%): 90.12%
+↳ Recall: 0.8642, Precision: 0.9946, F1-score: 0.9248
+↳ Val Acc.(%): 89.74%
+Epoch: 3
+↳ Loss: 0.005876090760751001
+↳ Training Acc.(%): 93.51%
+↳ Recall: 0.9133, Precision: 0.9949, F1-score: 0.9524
+↳ Val Acc.(%): 93.33%
+Epoch: 4
+↳ Loss: 0.004861382596636755
+↳ Training Acc.(%): 94.60%
+↳ Recall: 0.9438, Precision: 0.9951, F1-score: 0.9687
+↳ Val Acc.(%): 95.56%

@@ -4,3 +4,5 @@
 /output
 .venv/
 *.pt
+sample.py
+__pycache__/
