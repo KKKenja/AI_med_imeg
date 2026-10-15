@@ -1,6 +1,7 @@
 import os
 import sys
 import copy
+import random
 import warnings
 from datetime import datetime
 import numpy as np
@@ -40,6 +41,15 @@ class Logger:
     def flush(self):
         self.terminal.flush()
         self.log.flush()
+
+def set_seed(seed):
+    # fix random seeds so runs are reproducible (cuDNN may still add tiny differences on GPU)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 def measurement(outputs, labels, smooth=1e-10):
     tp, tn, fp, fn = smooth, smooth, smooth, smooth
@@ -127,14 +137,15 @@ def plot_accuracy(train_acc_list, val_acc_list, save_path):
     plt.savefig(save_path, dpi=150)
     plt.close()
 
-def plot_f1_score(f1_score_list, save_path):
-    epochs = range(1, len(f1_score_list)+1)
+def plot_f1_score(train_f1_list, val_f1_list, save_path):
+    epochs = range(1, len(train_f1_list)+1)
     plt.figure(figsize=(8, 5))
-    plt.plot(epochs, f1_score_list, marker='o', color='tab:green', label='Val F1-score')
+    plt.plot(epochs, train_f1_list, marker='o', label='Train F1-score')
+    plt.plot(epochs, val_f1_list, marker='o', label='Val F1-score')
     plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.xlabel('Epoch')
     plt.ylabel('F1-score')
-    plt.title('Validation F1-score')
+    plt.title('Training and Validation F1-score')
     plt.legend()
     plt.grid(alpha=0.3)
     plt.tight_layout()
@@ -160,6 +171,7 @@ def train(device, train_loader, val_loader, model, criterion, optimizer, num_epo
     best_acc = 0.0
     best_model_wts = None
     train_acc_list = []
+    train_f1_list = []
     val_acc_list = []
     f1_score_list = []
 
@@ -191,14 +203,17 @@ def train(device, train_loader, val_loader, model, criterion, optimizer, num_epo
 
             avg_loss /= len(train_loader.dataset)
             train_acc = (tp+tn) / (tp+tn+fp+fn) * 100
+            train_f1 = (2*tp) / (2*tp+fp+fn)
             print(f'Epoch: {epoch}')
             print(f'↳ Loss: {avg_loss}')
             print(f'↳ Training Acc.(%): {train_acc:.2f}%')
+            print(f'↳ Training F1-score: {train_f1:.4f}')
 
         # validation: only val is used to pick the best epoch, test is kept for the end
         val_acc, f1_score, _ = test(device, val_loader, model)
 
         train_acc_list.append(train_acc)
+        train_f1_list.append(train_f1)
         val_acc_list.append(val_acc)
         f1_score_list.append(f1_score)
 
@@ -209,7 +224,7 @@ def train(device, train_loader, val_loader, model, criterion, optimizer, num_epo
     torch.save(best_model_wts, ckpt_path)
     model.load_state_dict(best_model_wts)
 
-    return train_acc_list, val_acc_list, f1_score_list
+    return train_acc_list, train_f1_list, val_acc_list, f1_score_list
 
 def test(device, test_loader, model, name='Val'):
     val_acc = 0.0
@@ -258,6 +273,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, required=False, default=32)
     parser.add_argument('--lr', type=float, default=1e-5)
     parser.add_argument('--wd', type=float, default=1e-4)
+    parser.add_argument('--seed', type=int, default=42)
 
     # for dataloader
     parser.add_argument('--dataset', type=str, required=False, default='data') # re-split by split_dataset.py
@@ -279,6 +295,8 @@ if __name__ == '__main__':
     sys.stdout = Logger(log_path)
     print(f'## Log file: {log_path} ##')
     print(f'## Args: {vars(args)} ##')
+
+    set_seed(args.seed)
 
     # set gpu
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -306,8 +324,8 @@ if __name__ == '__main__':
 
     # training (best epoch is chosen by val acc)
     ckpt_path = args.ckpt or os.path.join(args.output_dir, f'{args.model}_weights.pt')
-    train_acc_list, val_acc_list, f1_score_list = train(device, train_loader, val_loader, model, criterion, optimizer,
-                                                        args.num_epochs, ckpt_path)
+    train_acc_list, train_f1_list, val_acc_list, f1_score_list = train(device, train_loader, val_loader, model,
+                                                                       criterion, optimizer, args.num_epochs, ckpt_path)
     print(f'## Best model saved to {ckpt_path} ##')
 
     # testing: evaluate the best model on the test set only once
@@ -316,7 +334,13 @@ if __name__ == '__main__':
     test_acc, test_f1_score, best_c_matrix = test(device, test_loader, model, name='Test')
     print('=' * 50)
 
-    # plot
-    plot_accuracy(train_acc_list, val_acc_list, os.path.join(args.output_dir, f'{args.model}_accuracy.png'))
-    plot_f1_score(f1_score_list, os.path.join(args.output_dir, f'{args.model}_f1_score.png'))
-    plot_confusion_matrix(best_c_matrix, os.path.join(args.output_dir, f'{args.model}_confusion_matrix.png'))
+    # plot (on Windows, saving fails if the png is open in another program, so don't let one figure stop the others)
+    plots = [(plot_accuracy, (train_acc_list, val_acc_list), 'accuracy'),
+             (plot_f1_score, (train_f1_list, f1_score_list), 'f1_score'),
+             (plot_confusion_matrix, (best_c_matrix,), 'confusion_matrix')]
+    for plot_fn, data, name in plots:
+        save_path = os.path.join(args.output_dir, f'{args.model}_{name}.png')
+        try:
+            plot_fn(*data, save_path)
+        except OSError as e:
+            print(f'## Failed to save {save_path} (is it open in another program?): {e} ##')

@@ -6,14 +6,24 @@ Dataset: [Kaggle - Chest X-Ray Images (Pneumonia)](https://www.kaggle.com/datase
 
 ## Results
 
+Final runs (batch size 32, seed 42, current code):
+
+| Model | Best Val Acc (epoch) | Test Acc | Test F1 | Log |
+|---|---|---|---|---|
+| ResNet18 | 98.80% (28) | **97.26%** | **0.9813** | `logs/resnet18_train_20261015_134539.log` |
+| ResNet50 | 98.63% (24) | 96.41% | 0.9751 | `logs/resnet50_train_20261015_183832.log` |
+
+The test set is evaluated **only once**, using the checkpoint with the highest validation accuracy.
+`output/resnet18_weights.pt` and `output/resnet50_weights.pt` are from these runs.
+ResNet50 was trained twice with seed 42 (`logs/resnet50_train_20261015_143113.log` and `..._183832.log`) and the two logs are identical, so the results are reproducible.
+
+Earlier runs (before the random seed was fixed and before training F1 was logged), used for the batch-size / run-to-run discussion in the report:
+
 | Model | Batch size | Best Val Acc (epoch) | Test Acc | Test F1 | Log |
 |---|---|---|---|---|---|
 | ResNet18 | 64 | 98.46% (22) | 96.92% | 0.9787 | `logs/Res18_train_20261008_102219.log` |
 | ResNet18 | 32 | 98.63% (23) | 96.92% | 0.9788 | `logs/resnet18_train_20261008_174911.log` |
-| ResNet50 | 32 | 98.12% (29) | **98.12%** | **0.9871** | `logs/train_20261008_150258.log` |
-
-The test set is evaluated **only once**, using the checkpoint with the highest validation accuracy.
-`output/resnet18_weights.pt` is from the batch-32 run.
+| ResNet50 | 32 | 98.12% (29) | 98.12% | 0.9871 | `logs/train_20261008_150258.log` |
 
 ## Files
 
@@ -68,8 +78,9 @@ This **copies** the images into `data/` (`raw/` is not modified):
 ```bash
 python train.py --model resnet18 --batch_size 32
 python train.py --model resnet50 --batch_size 32
-python train.py --model resnet18 --batch_size 64 --ckpt output/resnet18_bs64_weights.pt   # batch size comparison
 ```
+
+With the default `--seed 42`, rerunning these commands on our machine gave identical logs (results may still differ slightly on other GPUs / library versions).
 
 Each run writes:
 
@@ -77,7 +88,7 @@ Each run writes:
 |---|---|
 | `output/<model>_weights.pt` | Weights of the epoch with the highest val accuracy (change with `--ckpt`) |
 | `output/<model>_accuracy.png` | Train / val accuracy curves |
-| `output/<model>_f1_score.png` | Val F1-score curve |
+| `output/<model>_f1_score.png` | Train / val F1-score curves |
 | `output/<model>_confusion_matrix.png` | Confusion matrix on the test set |
 | `logs/<model>_train_<time>.log` | Full training log |
 
@@ -90,6 +101,7 @@ Arguments:
 | `--batch_size` | 32 | Use 32 for ResNet50 on a 4 GB GPU |
 | `--lr` | 1e-5 | Adam learning rate |
 | `--wd` | 1e-4 | Weight decay |
+| `--seed` | 42 | Random seed (Python / NumPy / PyTorch) |
 | `--degree` | 15 | Random rotation range (±degrees) |
 | `--resize` | 224 | Input size |
 | `--dataset` | `data` | Dataset folder created by `split_dataset.py` |
@@ -119,7 +131,11 @@ Prints the test accuracy, recall, precision and F1-score (positive class = PNEUM
 Reads the per-epoch results from the training logs and plots the runs together:
 
 ```bash
-python plot_compare.py --logs logs/Res18_train_20261008_102219.log logs/resnet18_train_20261008_174911.log logs/train_20261008_150258.log --names "ResNet18 (bs64)" "ResNet18 (bs32)" "ResNet50 (bs32)" --acc_ymin 75
+python plot_compare.py --logs logs/resnet18_train_20261015_134539.log logs/resnet50_train_20261015_183832.log --names ResNet18 ResNet50
 ```
 
-Saves `output/compare_accuracy.png` (train / val accuracy) and `output/compare_f1_score.png` (val F1-score). These are Figures 2 and 3 in the report.
+Saves two figures, each with accuracy on the left and F1-score on the right:
+- `output/compare_train.png`: training curves
+- `output/compare_val.png`: validation curves
+
+Logs from before training F1 was recorded (e.g. the batch-64 run) only show up in the accuracy panels.
