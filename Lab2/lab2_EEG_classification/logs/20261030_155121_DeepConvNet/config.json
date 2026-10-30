@@ -1,0 +1,18 @@
+{
+  "run_id": "20261030_155121_DeepConvNet",
+  "model": "DeepConvNet",
+  "activation": "ReLU",
+  "elu_alpha": 1.0,
+  "dropout": 0.5,
+  "lr": 0.001,
+  "batch_size": 64,
+  "epochs": 150,
+  "weight_decay": 0.001,
+  "params": 150977,
+  "best_test_acc": 81.67,
+  "best_epoch": 142,
+  "final_train_acc": 92.5,
+  "final_test_acc": 80.09,
+  "note": "",
+  "architecture": "DeepConvNet(\n  (block1): Sequential(\n    (0): Conv2d(1, 25, kernel_size=(1, 5), stride=(1, 1))\n    (1): Conv2d(25, 25, kernel_size=(2, 1), stride=(1, 1))\n    (2): BatchNorm2d(25, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (3): ReLU()\n    (4): MaxPool2d(kernel_size=(1, 2), stride=(1, 2), padding=0, dilation=1, ceil_mode=False)\n    (5): Dropout(p=0.5, inplace=False)\n  )\n  (block2): Sequential(\n    (0): Conv2d(25, 50, kernel_size=(1, 5), stride=(1, 1))\n    (1): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (2): ReLU()\n    (3): MaxPool2d(kernel_size=(1, 2), stride=(1, 2), padding=0, dilation=1, ceil_mode=False)\n    (4): Dropout(p=0.5, inplace=False)\n  )\n  (block3): Sequential(\n    (0): Conv2d(50, 100, kernel_size=(1, 5), stride=(1, 1))\n    (1): BatchNorm2d(100, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (2): ReLU()\n    (3): MaxPool2d(kernel_size=(1, 2), stride=(1, 2), padding=0, dilation=1, ceil_mode=False)\n    (4): Dropout(p=0.5, inplace=False)\n  )\n  (block4): Sequential(\n    (0): Conv2d(100, 200, kernel_size=(1, 5), stride=(1, 1))\n    (1): BatchNorm2d(200, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (2): ReLU()\n    (3): MaxPool2d(kernel_size=(1, 2), stride=(1, 2), padding=0, dilation=1, ceil_mode=False)\n    (4): Dropout(p=0.5, inplace=False)\n  )\n  (classify): Sequential(\n    (0): Linear(in_features=8600, out_features=2, bias=True)\n  )\n)"
+}
