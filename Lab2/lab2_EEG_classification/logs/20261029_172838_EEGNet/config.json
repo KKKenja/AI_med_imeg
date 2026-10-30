@@ -1,0 +1,18 @@
+{
+  "run_id": "20261029_172838_EEGNet",
+  "model": "EEGNet",
+  "activation": "ELU",
+  "elu_alpha": 1.0,
+  "dropout": 0.5,
+  "lr": 0.001,
+  "batch_size": 64,
+  "epochs": 150,
+  "weight_decay": 0.001,
+  "params": 17874,
+  "best_test_acc": 82.78,
+  "best_epoch": 138,
+  "final_train_acc": 90.09,
+  "final_test_acc": 82.5,
+  "note": "",
+  "architecture": "EEGNet(\n  (firstconv): Sequential(\n    (0): Conv2d(1, 16, kernel_size=(1, 51), stride=(1, 1), padding=(0, 25), bias=False)\n    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n  )\n  (depthwiseConv): Sequential(\n    (0): Conv2d(16, 32, kernel_size=(2, 1), stride=(1, 1), groups=16, bias=False)\n    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (2): ELU(alpha=1.0)\n    (3): AvgPool2d(kernel_size=(1, 4), stride=(1, 4), padding=0)\n    (4): Dropout(p=0.5, inplace=False)\n  )\n  (separableConv): Sequential(\n    (0): Conv2d(32, 32, kernel_size=(1, 15), stride=(1, 1), padding=(0, 7), bias=False)\n    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (2): ELU(alpha=1.0)\n    (3): AvgPool2d(kernel_size=(1, 8), stride=(1, 8), padding=0)\n    (4): Dropout(p=0.5, inplace=False)\n  )\n  (classify): Sequential(\n    (0): Linear(in_features=736, out_features=2, bias=True)\n  )\n)"
+}
